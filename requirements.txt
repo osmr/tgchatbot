@@ -1,0 +1,22 @@
+Cython==0.29.24
+
+# For transformers.AutoTokenizer:
+transformers==4.10.3
+
+# For transformers.MarianTokenizer:
+SentencePiece==0.1.96
+
+# For nemo.collections.nlp.models.PunctuationCapitalizationModel:
+nemo_toolkit[all]==1.3.0
+
+# For pytorchcv.model_provider.get_model:
+pytorchcv==0.0.67
+
+# For tensorflow_tts.inference.AutoProcessor:
+git+https://github.com/repodiac/german_transliterate
+
+# For speechbrain.pretrained.EncoderClassifier:
+speechbrain==0.5.10
+
+# For TelegramChatBot:
+aiogram==2.15
