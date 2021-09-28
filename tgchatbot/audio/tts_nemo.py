@@ -84,30 +84,3 @@ class TtsNemo(object):
             audio = self.vocoder.convert_spectrogram_to_audio(spec=spectrogram)
             audio = audio[0].cpu().detach().numpy()
         return audio
-
-
-if __name__ == "__main__":
-    import os.path
-    import soundfile as sf
-    use_cuda = False
-
-    root_dir_path = "../../tgchatbot_data/audio"
-    text = "Recent research at Harvard has shown meditating for as little as 8 weeks, can actually increase the grey " \
-           "matter in the parts of the brain responsible for emotional regulation, and learning."
-    model_params = (
-        {"tts_name": "tacotron2", "vocoder_name": "waveglow"},
-        {"tts_name": "glowtts", "vocoder_name": "waveglow"},
-        {"tts_name": "tacotron2", "vocoder_name": "squeezewave"},
-        {"tts_name": "glowtts", "vocoder_name": "squeezewave"},
-    )
-
-    for model_param in model_params:
-        tts_name = model_param["tts_name"]
-        vocoder_name = model_param["vocoder_name"]
-        model1 = TtsNemo(tts_name=tts_name, vocoder_name=vocoder_name, use_cuda=use_cuda)
-        audio = model1(text)
-        sf.write(
-            file=os.path.join(root_dir_path, "audio_en_nemo_{}_{}.wav".format(tts_name, vocoder_name)),
-            data=audio,
-            samplerate=22050,
-            subtype="PCM_16")

@@ -62,6 +62,10 @@ class TelegramAiChatbot(object):
 
         @self.dp.message_handler(commands=["start"])
         async def process_start_command(message: types.Message):
+            """
+            Show welcome message. Here you can change both languages by sending the appropriate string with the
+            language code.
+            """
             user_id = message.from_user.id
             lang_state = self.get_lang_state(user_id)
 
@@ -75,10 +79,17 @@ class TelegramAiChatbot(object):
 
         @self.dp.message_handler(commands=["help"])
         async def process_help_command(message: types.Message):
+            """
+            Show welcome message.
+            """
             await message.answer(self.HELP_MESSAGE)
 
         @self.dp.message_handler(commands=["lang", "lang_src", "lang_dst"])
         async def process_lang_command(message: types.Message):
+            """
+            Show current languages status. You can change languages by sending the appropriate string with the
+            language code.
+            """
             user_id = message.from_user.id
             lang_state = self.get_lang_state(user_id)
 
@@ -115,6 +126,9 @@ class TelegramAiChatbot(object):
 
         @self.dp.message_handler(commands=["tts"])
         async def process_tts_command(message: types.Message):
+            """
+            Show current TTS activity status. You can change this status by sending `yes` or `no` string.
+            """
             user_id = message.from_user.id
             lang_state = self.get_lang_state(user_id)
 
@@ -139,6 +153,10 @@ class TelegramAiChatbot(object):
 
         @self.dp.message_handler(commands=["context"])
         async def process_context_command(message: types.Message):
+            """
+            Show contest for text (NLU) chatbot context corresponding the current output language. You can erase the
+            context by sending empty string.
+            """
             user_id = message.from_user.id
             lang_state = self.get_lang_state(user_id)
             nlu_chat_bot_context = self.get_text_chatbot_context(user_id, lang_state["dst"])
@@ -151,6 +169,9 @@ class TelegramAiChatbot(object):
 
         @self.dp.message_handler(content_types=types.message.ContentType.TEXT)
         async def process_text_user_message(message: types.Message):
+            """
+            Response to a text message.
+            """
             user_id = message.from_user.id
             text_answer = self.answer_text(text=message.text, user_id=user_id)
 
@@ -170,6 +191,9 @@ class TelegramAiChatbot(object):
 
         @self.dp.message_handler(content_types=types.message.ContentType.AUDIO)
         async def process_audio_user_message(message: types.Message):
+            """
+            Response to a sound file as an audio speech.
+            """
             try:
                 audio = message.audio
                 audio_buffer = BytesIO()
@@ -201,11 +225,37 @@ class TelegramAiChatbot(object):
                 await message.answer(text_answer)
 
     def get_lang_state(self, user_id):
+        """
+        Get language state (pair of languages: input and output) for the session.
+
+        Parameters:
+        ----------
+        user_id : str
+            User ID as session.
+
+        Returns:
+        -------
+        dict
+            Language state.
+        """
         if user_id not in self.lang_states:
             self.lang_states[user_id] = {"src": self.langs[0], "dst": self.langs[0]}
         return self.lang_states[user_id]
 
     def get_asr(self, user_id):
+        """
+        Get an Automatic Speech Recognition processor.
+
+        Parameters:
+        ----------
+        user_id : str
+            User ID as session.
+
+        Returns:
+        -------
+        object
+            ASR processor.
+        """
         lang_state = self.get_lang_state(user_id)
         if self.asr[lang_state["src"]] is None:
             from audio.asr_quartznet import AsrQuartznet
@@ -213,6 +263,19 @@ class TelegramAiChatbot(object):
         return self.asr[lang_state["src"]]
 
     def get_tts(self, user_id):
+        """
+        Get a Text-To-Speech processor.
+
+        Parameters:
+        ----------
+        user_id : str
+            User ID as session.
+
+        Returns:
+        -------
+        object
+            TTS processor.
+        """
         lang_state = self.get_lang_state(user_id)
         if self.use_tts and (lang_state["dst"] in ("en", "fr")):
             if self.tts[lang_state["dst"]] is None:
@@ -223,6 +286,19 @@ class TelegramAiChatbot(object):
             return None
 
     def get_text_translator(self, lang_state):
+        """
+        Get a text (NLU) translator corresponding to the pair of languages for the session.
+
+        Parameters:
+        ----------
+        lang_state : dict
+            Language state (pair of languages: input and output).
+
+        Returns:
+        -------
+        object
+            Text (NLU) translator.
+        """
         key = self.get_lang_key(lang_state)
         if key not in self.text_translators:
             self.text_translators[key] = TranslatorMarian(
@@ -232,16 +308,59 @@ class TelegramAiChatbot(object):
         return self.text_translators[key]
 
     def get_text_chatbot(self, lang):
+        """
+        Get a text (NLU) chatbot corresponding to the destination language for the session.
+
+        Parameters:
+        ----------
+        lang : str
+            Language.
+
+        Returns:
+        -------
+        object
+            Text (NLU) chatbot.
+        """
         if self.text_chatbots[lang] is None:
             self.text_chatbots[lang] = self.text_chatbot_classes[lang](use_cuda=self.use_cuda)
         return self.text_chatbots[lang]
 
     def get_text_chatbot_context(self, user_id, lang):
+        """
+        Get contest for text (NLU) chatbot for the session.
+
+        Parameters:
+        ----------
+        user_id : str
+            User ID as session.
+        lang : str
+            Language.
+
+        Returns:
+        -------
+        str
+            Context string.
+        """
         if user_id not in self.text_chatbot_contexts:
             self.text_chatbot_contexts[user_id] = {lang: [""] for lang in self.langs}
         return self.text_chatbot_contexts[user_id][lang]
 
     def answer_text(self, text, user_id):
+        """
+        Text-to-text reply.
+
+        Parameters:
+        ----------
+        text : str
+            Input utterance (or question).
+        user_id : str
+            User ID as session.
+
+        Returns:
+        -------
+        str
+            Answer or (output utterance).
+        """
         lang_state = self.get_lang_state(user_id)
 
         if lang_state["dst"] != lang_state["src"]:
@@ -256,6 +375,19 @@ class TelegramAiChatbot(object):
 
     @staticmethod
     def get_lang_key(lang_state):
+        """
+        Get language key string.
+
+        Parameters:
+        ----------
+        lang_state : dict
+            Language state (pair of languages: input and output).
+
+        Returns:
+        -------
+        str
+            Target key string.
+        """
         return "{}-{}".format(lang_state["src"], lang_state["dst"])
 
 

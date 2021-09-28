@@ -1,8 +1,6 @@
 from tgchatbot.text.chatbot_dialoggpt_en import ChatbotDialoggptEn
-import pytest
 
 
-@pytest.mark.parametrize("use_cuda", [False, True])
 def test_chatbot_dialoggpt_en(use_cuda):
     chat_bot = ChatbotDialoggptEn(use_cuda=use_cuda)
     questions = (

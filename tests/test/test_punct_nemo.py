@@ -3,7 +3,6 @@ import pytest
 
 
 @pytest.mark.parametrize("model_type", ["bert", "distilbert"])
-@pytest.mark.parametrize("use_cuda", [False, True])
 def test_punct_nemo(model_type, use_cuda):
     corrector = PunctNemo(model_type, use_cuda=use_cuda)
     src_utterances = (

@@ -93,26 +93,3 @@ class TtsTensorspeech(object):
 
         audio = self.vocoder.inference(mel_outputs)[0, :, 0]
         return audio.numpy()
-
-
-if __name__ == "__main__":
-    import os.path
-    import soundfile as sf
-    use_cuda = False
-
-    root_dir_path = "../../tgchatbot_data/audio"
-    utterance_dict = {
-        "en": "Recent research at Harvard has shown meditating for as little as 8 weeks, can actually increase the "
-              "grey matter in the parts of the brain responsible for emotional regulation, and learning.",
-        "fr": "Oh, je voudrais tant que tu te souviennes Des jours heureux quand nous étions amis",
-        # "de": "Möchtest du das meiner Frau erklären? Nein? Ich auch nicht.",
-    }
-
-    for lang in utterance_dict:
-        model_en = TtsTensorspeech(lang=lang, use_cuda=use_cuda)
-        audio = model_en(utterance_dict[lang])
-        sf.write(
-            file=os.path.join(root_dir_path, "audio_tensorspeech_{}.wav".format(lang)),
-            data=audio,
-            samplerate=22050,
-            subtype="PCM_16")

@@ -1,3 +1,5 @@
+pretrained_models/
+
 # PyCharm ###
 .idea
 .idea/*

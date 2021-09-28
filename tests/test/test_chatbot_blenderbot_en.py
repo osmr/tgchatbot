@@ -1,8 +1,6 @@
 from tgchatbot.text.chatbot_blenderbot_en import ChatbotBlenderbotEn
-import pytest
 
 
-@pytest.mark.parametrize("use_cuda", [False, True])
 def test_chatbot_blenderbot_en(use_cuda):
     chat_bot = ChatbotBlenderbotEn(use_cuda=use_cuda)
     questions = (

@@ -73,21 +73,3 @@ class AudioConverter(object):
             subtype="PCM_16")
         audio_buffer.seek(0)
         return audio_buffer
-
-
-if __name__ == "__main__":
-    import os.path
-    root_dir_path = "../../tgchatbot_data/audio"
-    src_audio_file_path = os.path.join(root_dir_path, "en/common_voice_en_1.mp3")
-    with open(src_audio_file_path, "rb") as f:
-        src_buffer = BytesIO(f.read())
-    audio_array = AudioConverter.read_from_buffer(
-        audio_buffer=src_buffer,
-        desired_audio_sample_rate=16000)
-    dst_buffer = AudioConverter.write_to_wav_buffer(
-        audio_array=audio_array,
-        audio_sample_rate=16000)
-    dst_audio_file_path = os.path.join(root_dir_path, "audio_conv_tmp.wav")
-    with open(dst_audio_file_path, "wb") as f:
-        f.write(dst_buffer.getvalue())
-    pass

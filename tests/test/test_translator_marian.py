@@ -1,8 +1,6 @@
 from tgchatbot.text.translator_marian import TranslatorMarian
-import pytest
 
 
-@pytest.mark.parametrize("use_cuda", [False, True])
 def test_translator_marian(use_cuda):
     translator = TranslatorMarian(src="ru", dst="fr", use_cuda=use_cuda)
     src_utterances = (

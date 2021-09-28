@@ -83,30 +83,3 @@ class AsrS2t(object):
             start = len(text.split(":")[0]) + 2
             text = text[start:]
         return text
-
-
-if __name__ == "__main__":
-    import os.path
-    import librosa
-    use_cuda = False
-
-    root_dir_path = "../../tgchatbot_data/audio"
-    file_path = os.path.join(root_dir_path, "en/common_voice_en_1.mp3")
-    dst_langs = ("en", "fr", "de", "ru")
-
-    audio_data, sample_rate = librosa.load(path=file_path, sr=16_000, mono=True)
-    for dst_lang in dst_langs:
-        asr = AsrS2t(src_lang="en", dst_lang=dst_lang, use_cuda=use_cuda)
-        text = asr(audio_data)
-        print("Text: {}".format(text))
-
-    file_paths = {
-        "fr": os.path.join(root_dir_path, "fr/common_voice_fr_17299384.mp3"),
-        "de": os.path.join(root_dir_path, "de/common_voice_de_17298952.mp3"),
-    }
-
-    for src_lang in file_paths:
-        audio_data, sample_rate = librosa.load(path=file_paths[src_lang], sr=48_000, mono=True)
-        asr = AsrS2t(src_lang=src_lang, dst_lang="en", use_cuda=use_cuda)
-        text = asr(audio_data)
-        print("Text: {}".format(text))
