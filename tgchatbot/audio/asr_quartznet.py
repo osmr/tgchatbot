@@ -62,23 +62,3 @@ class AsrQuartznet(object):
 
         text = self.net(x, x_len)[0]
         return text
-
-
-if __name__ == "__main__":
-    import os.path
-    import librosa
-    use_cuda = False
-
-    root_dir_path = "../../tgchatbot_data/audio"
-    file_paths = {
-        "en": os.path.join(root_dir_path, "en/common_voice_en_1.mp3"),
-        "fr": os.path.join(root_dir_path, "fr/common_voice_fr_17299384.mp3"),
-        "de": os.path.join(root_dir_path, "de/common_voice_de_17298952.mp3"),
-        "ru": os.path.join(root_dir_path, "ru/common_voice_ru_18849003.mp3"),
-    }
-
-    for lang in file_paths:
-        audio_data, sample_rate = librosa.load(path=file_paths[lang], sr=16000, mono=True)
-        asr = AsrQuartznet(lang=lang, use_cuda=use_cuda)
-        text = asr(audio_data)
-        print("Text: {}".format(text))

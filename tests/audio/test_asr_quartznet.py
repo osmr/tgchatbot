@@ -8,13 +8,14 @@ import pytest
 def audio_data_dict():
     root_dir_path = "../../data"
     file_paths = {
-        "en": os.path.join(root_dir_path, "common_voice_en_1.mp3"),
-        "fr": os.path.join(root_dir_path, "common_voice_fr_17299384.mp3"),
-        "de": os.path.join(root_dir_path, "common_voice_de_17298952.mp3"),
-        "ru": os.path.join(root_dir_path, "common_voice_ru_18849003.mp3"),
+        "en": "common_voice_en_1.mp3",
+        "fr": "common_voice_fr_17299384.mp3",
+        "de": "common_voice_de_17298952.mp3",
+        "ru": "common_voice_ru_18849003.mp3",
     }
     sample_rate = 16000
-    audio_data_dict = {lang: librosa.load(path=file_paths[lang], sr=sample_rate, mono=True)[0] for lang in file_paths}
+    audio_data_dict = {lang: librosa.load(
+        path=os.path.join(root_dir_path, file_paths[lang]), sr=sample_rate, mono=True)[0] for lang in file_paths}
     return audio_data_dict
 
 
