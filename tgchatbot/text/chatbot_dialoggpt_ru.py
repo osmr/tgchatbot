@@ -1,20 +1,20 @@
 """
-    FR/Microsoft's DialogGPT chatbot (Conversational NLU).
+    RU/Microsoft's DialogGPT chatbot (Conversational NLU).
 """
 
-__all__ = ['ChatbotDialoggptFr']
+__all__ = ['ChatbotDialoggptRu']
 
 from .chatbot import Chatbot
 
 
-class ChatbotDialoggptFr(Chatbot):
+class ChatbotDialoggptRu(Chatbot):
     """
-    FR/Microsoft's DialogGPT chatbot.
+    RU/Microsoft's DialogGPT chatbot.
     """
     def __init__(self,
                  **kwargs):
-        super(ChatbotDialoggptFr, self).__init__(**kwargs)
-        model_name = "cedpsam/chatbot_fr"
+        super(ChatbotDialoggptRu, self).__init__(**kwargs)
+        model_name = "Grossmend/rudialogpt3_medium_based_on_gpt2"
 
         from transformers import AutoTokenizer, AutoModelForCausalLM
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -24,8 +24,21 @@ class ChatbotDialoggptFr(Chatbot):
         if self.use_cuda:
             self.model = self.model.cuda()
 
-    def _decorate_utterance(self, input_message):
-        return "{}{}".format(input_message, self.tokenizer.eos_token)
+    def _decorate_question(self, utterance):
+        utterance_tokens_count = len(self.tokenizer.encode(utterance))
+        if utterance_tokens_count <= 15:
+            utterance_tokens_count_code = "1"
+        elif utterance_tokens_count <= 50:
+            utterance_tokens_count_code = "2"
+        elif utterance_tokens_count <= 256:
+            utterance_tokens_count_code = "3"
+        else:
+            utterance_tokens_count_code = "-"
+        return "|0|{}|{}</s>|1|1|".format(utterance_tokens_count_code, utterance)
+
+    @staticmethod
+    def _decorate_answer(utterance):
+        return "{}</s>".format(utterance)
 
     def __call__(self,
                  input_message,
@@ -50,7 +63,7 @@ class ChatbotDialoggptFr(Chatbot):
         if context is None:
             context = [""]
 
-        input_message = self._decorate_utterance(input_message)
+        input_message = self._decorate_question(input_message)
 
         context[0] += input_message
 
@@ -61,7 +74,7 @@ class ChatbotDialoggptFr(Chatbot):
         reply_tokens = self.model.generate(
             input_ids=input_tokens,
             num_return_sequences=1,
-            max_length=256,
+            max_length=512,
             no_repeat_ngram_size=3,
             do_sample=True,
             top_k=50,
@@ -70,23 +83,9 @@ class ChatbotDialoggptFr(Chatbot):
             mask_token_id=self.tokenizer.mask_token_id,
             eos_token_id=self.tokenizer.eos_token_id,
             unk_token_id=self.tokenizer.unk_token_id,
-            pad_token_id=self.tokenizer.eos_token_id)
+            pad_token_id=self.tokenizer.pad_token_id)
         answer = self.tokenizer.batch_decode(reply_tokens[:, input_tokens.shape[-1]:], skip_special_tokens=True)[0]
 
-        context[0] += self._decorate_utterance(answer)
+        context[0] += self._decorate_answer(answer)
 
         return answer
-
-
-if __name__ == "__main__":
-    use_cuda = False
-    chat_bot = ChatbotDialoggptFr(use_cuda=use_cuda)
-    questions = (
-        "Salut! Comment ca va?",
-        "Quel est ton nom?",
-        "Que comptes-tu faire ce soir?",
-    )
-    context = [""]
-    for question in questions:
-        print("\nQ: {}\nA: {}".format(question, chat_bot(question, context)))
-    print("\nContext: {}".format(context))

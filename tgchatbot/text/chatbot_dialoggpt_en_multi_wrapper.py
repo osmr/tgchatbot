@@ -47,17 +47,3 @@ class ChatbotDialoggptEnMultiWrapper(ChatbotDialoggptEn):
         answer = super(ChatbotDialoggptEnMultiWrapper, self).__call__(input_message, context)
         answer = self.en_to_target_translator(answer)
         return answer
-
-
-if __name__ == "__main__":
-    use_cuda = False
-    chat_bot = ChatbotDialoggptEnMultiWrapper(lang="de", use_cuda=use_cuda)
-    questions = (
-        "Hallo! Wie geht es Ihnen?",
-        "Wie heißen Sie?",
-        "Was sind Ihre Pläne für den Abend?",
-    )
-    context = [""]
-    for question in questions:
-        print("\nQ: {}\nA: {}".format(question, chat_bot(question, context)))
-    print("\nContext: {}".format(context))

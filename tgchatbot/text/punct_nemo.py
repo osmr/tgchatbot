@@ -46,16 +46,3 @@ class PunctNemo(object):
         """
         corrected_text = self.model.add_punctuation_capitalization([text])
         return corrected_text[0]
-
-
-if __name__ == "__main__":
-    use_cuda = False
-    model_types = ("bert", "distilbert")
-    for model_type in model_types:
-        corrector = PunctNemo(model_type, use_cuda=use_cuda)
-        src_utterances = (
-            "how are you",
-            "great how about you",
-        )
-        for src_utterance in src_utterances:
-            print("\nQ: {}\nA: {}".format(src_utterance, corrector(src_utterance)))

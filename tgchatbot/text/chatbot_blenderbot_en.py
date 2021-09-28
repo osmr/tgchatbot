@@ -68,17 +68,3 @@ class ChatbotBlenderbotEn(Chatbot):
         context[0] += self._decorate_utterance(answer)
 
         return answer
-
-
-if __name__ == "__main__":
-    use_cuda = False
-    chat_bot = ChatbotBlenderbotEn(use_cuda=use_cuda)
-    questions = (
-        "Hello! How are you?",
-        "What's your name?",
-        "What are your plans for the evening?",
-    )
-    context = [""]
-    for question in questions:
-        print("\nQ: {}\nA: {}".format(question, chat_bot(question, context)))
-    print("\nContext: {}".format(context))

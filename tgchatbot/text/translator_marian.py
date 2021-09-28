@@ -61,15 +61,3 @@ class TranslatorMarian(object):
         reply_tokens = self.model.generate(input_ids=input_ids, attention_mask=attention_mask)
         answer = self.tokenizer.batch_decode(reply_tokens, skip_special_tokens=True)[0]
         return answer
-
-
-if __name__ == "__main__":
-    use_cuda = False
-    translator = TranslatorMarian(src="ru", dst="fr", use_cuda=use_cuda)
-    src_utterances = (
-        "Привет! Как дела?",
-        "Как тебя зовут?",
-        "Какие планы на вечер?",
-    )
-    for src_utterance in src_utterances:
-        print("\nQ: {}\nA: {}".format(src_utterance, translator(src_utterance)))

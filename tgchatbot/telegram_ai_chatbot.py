@@ -1,23 +1,25 @@
 """
-    Telegram chatbot.
+    Telegram AI chatbot.
 """
+
+__all__ = ['TelegramAiChatbot', 'launch_chatbot']
 
 import argparse
 import logging
 from functools import partial
 from io import BytesIO
 from aiogram import Bot, Dispatcher, executor, types
-from text.chatbot_blenderbot_en import ChatbotBlenderbotEn
-from text.chatbot_dialoggpt_en_multi_wrapper import ChatbotDialoggptEnMultiWrapper
-from text.chatbot_dialoggpt_fr import ChatbotDialoggptFr
-from text.chatbot_dialoggpt_ru import ChatbotDialoggptRu
-from text.translator_marian import TranslatorMarian
-from audio.audio_converter import AudioConverter
+from .text.chatbot_blenderbot_en import ChatbotBlenderbotEn
+from .text.chatbot_dialoggpt_en_multi_wrapper import ChatbotDialoggptEnMultiWrapper
+from .text.chatbot_dialoggpt_fr import ChatbotDialoggptFr
+from .text.chatbot_dialoggpt_ru import ChatbotDialoggptRu
+from .text.translator_marian import TranslatorMarian
+from .audio.audio_converter import AudioConverter
 
 
-class TelegramChatBot(object):
+class TelegramAiChatbot(object):
     """
-    Telegram chatbot.
+    Telegram AI chatbot.
 
     Parameters:
     ----------
@@ -29,7 +31,7 @@ class TelegramChatBot(object):
     def __init__(self,
                  api_token,
                  use_cuda=False):
-        super(TelegramChatBot, self).__init__()
+        super(TelegramAiChatbot, self).__init__()
         self.use_cuda = use_cuda
         self.HELP_MESSAGE = "This is a chatbot. Talk to me."
 
@@ -257,9 +259,12 @@ class TelegramChatBot(object):
         return "{}-{}".format(lang_state["src"], lang_state["dst"])
 
 
-if __name__ == "__main__":
+def launch_chatbot():
+    """
+    Telegram AI chatbot launch script.
+    """
     parser = argparse.ArgumentParser(
-        description="Telegram chat bot",
+        description="Telegram AI chatbot",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--token", type=str, required=True, help="Telegram Bot API token")
     parser.add_argument("--use-cuda", action="store_true", help="use CUDA")
@@ -268,6 +273,10 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.INFO)
 
-    telegram_chat_bot = TelegramChatBot(api_token=args.token, use_cuda=args.use_cuda)
+    telegram_chat_bot = TelegramAiChatbot(api_token=args.token, use_cuda=args.use_cuda)
 
     executor.start_polling(telegram_chat_bot.dp, skip_updates=True)
+
+
+if __name__ == "__main__":
+    launch_chatbot()

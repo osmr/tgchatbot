@@ -1,24 +1,24 @@
 """
-    EN/Microsoft's DialogGPT chatbot (Conversational NLU).
+    FR/Microsoft's DialogGPT chatbot (Conversational NLU).
 """
 
-__all__ = ['ChatbotDialoggptEn']
+__all__ = ['ChatbotDialoggptFr']
 
 from .chatbot import Chatbot
 
 
-class ChatbotDialoggptEn(Chatbot):
+class ChatbotDialoggptFr(Chatbot):
     """
-    EN/Microsoft's DialogGPT chatbot.
+    FR/Microsoft's DialogGPT chatbot.
     """
     def __init__(self,
                  **kwargs):
-        super(ChatbotDialoggptEn, self).__init__(**kwargs)
-        conv_model_name = "microsoft/DialoGPT-medium"
+        super(ChatbotDialoggptFr, self).__init__(**kwargs)
+        model_name = "cedpsam/chatbot_fr"
 
         from transformers import AutoTokenizer, AutoModelForCausalLM
-        self.tokenizer = AutoTokenizer.from_pretrained(conv_model_name)
-        self.model = AutoModelForCausalLM.from_pretrained(conv_model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(model_name)
         assert (not self.model.training)
 
         if self.use_cuda:
@@ -67,23 +67,12 @@ class ChatbotDialoggptEn(Chatbot):
             top_k=50,
             top_p=0.9,
             temperature=0.6,
+            mask_token_id=self.tokenizer.mask_token_id,
+            eos_token_id=self.tokenizer.eos_token_id,
+            unk_token_id=self.tokenizer.unk_token_id,
             pad_token_id=self.tokenizer.eos_token_id)
         answer = self.tokenizer.batch_decode(reply_tokens[:, input_tokens.shape[-1]:], skip_special_tokens=True)[0]
 
         context[0] += self._decorate_utterance(answer)
 
         return answer
-
-
-if __name__ == "__main__":
-    use_cuda = False
-    chat_bot = ChatbotDialoggptEn(use_cuda=use_cuda)
-    questions = (
-        "Hello! How are you?",
-        "What's your name?",
-        "What are your plans for the evening?",
-    )
-    context = [""]
-    for question in questions:
-        print("\nQ: {}\nA: {}".format(question, chat_bot(question, context)))
-    print("\nContext: {}".format(context))

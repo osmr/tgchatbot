@@ -1,4 +1,4 @@
-# Telegram chatbot 
+# Telegram AI chatbot
 This is a chatbot for the [Telegram](https://telegram.org) instance messenger, which uses various free conversational
 Natural Language Understanding, Automatic Speech Recognition and Text-To-Speech neural networks for different languages.
 
