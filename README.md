@@ -93,7 +93,7 @@ sudo -H pip install virtualenv
 ```
 2. Clone repo, create and activate environment:
 ```
-git clone git@github.com:osmr/tgchatbot.git
+git clone https://github.com/osmr/tgchatbot.git
 cd tgchatbot
 virtualenv venv
 source venv/bin/activate
