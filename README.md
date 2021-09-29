@@ -1,4 +1,9 @@
 # Telegram AI chatbot
+
+[![Build Status](https://travis-ci.org/osmr/imgclsmob.svg?branch=master)](https://travis-ci.org/osmr/imgclsmob)
+[![GitHub License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Python Version](https://img.shields.io/badge/python-3.7%2C3.8-lightgrey.svg)](https://github.com/osmr/imgclsmob)
+
 This is a chatbot for the [Telegram](https://telegram.org) instance messenger, which uses various free conversational
 Natural Language Understanding, Automatic Speech Recognition and Text-To-Speech neural networks for different languages.
 
@@ -67,7 +72,7 @@ git clone https://github.com/osmr/tgchatbot.git
 cd tgchatbot
 docker build -t tgchatbot .
 ```
-3. Run docker container (fill the `token` value):
+4. Run docker container (fill the `token` value):
 ```
 docker run -it --rm --name=tgchatbot1 tgchatbot --token="<Your token>"
 ```
