@@ -152,8 +152,8 @@ class TelegramAiChatbot(object):
         @self.dp.message_handler(commands=["context"])
         async def process_context_command(message: types.Message):
             """
-            Show contest for text (NLU) chatbot context corresponding the current output language. You can erase the
-            context by sending empty string.
+            Show contest for text (NLU) chatbot context corresponding the current user and output language. You can
+            erase the context by sending empty string.
             """
             user_id = message.from_user.id
             lang_state = self.get_lang_state(user_id)

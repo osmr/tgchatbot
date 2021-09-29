@@ -30,6 +30,7 @@ Natural Language Understanding, Automatic Speech Recognition and Text-To-Speech 
    2. S3PRL's Hubert based [model](https://huggingface.co/superb/hubert-large-superb-er)
 
 ## Deployment
+
 ### Docker way
 
 1. Install docker engine (actual [instructions](https://docs.docker.com/engine/install/)):
@@ -47,6 +48,9 @@ sudo apt update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 sudo systemctl status docker
+
+sudo usermod -aG docker $USER
+newgrp docker
 ```
 2. Install NVIDIA Container Toolkit (actual [instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)):
 ```
@@ -61,5 +65,74 @@ sudo systemctl restart docker
 ```
 git clone https://github.com/osmr/tgchatbot.git
 cd tgchatbot
-
+docker build -t tgchatbot .
 ```
+3. Run docker container (fill the `token` value):
+```
+docker run -it --rm --name=tgchatbot1 tgchatbot --token="<Your token>"
+```
+or
+```
+docker run -it --rm --gpus=all --name=tgchatbot1 tgchatbot --token="<Your token>" --use-cuda
+```
+
+### Virtualenv way
+
+NB: You need `Python` >= 3.7 due to requirements of the `aiogram` and `SpeechBrain` packages.
+
+1. Install virtualenv (actual [instructions](https://virtualenv.pypa.io/en/latest/installation.html)):
+```
+sudo -H pip install --upgrade pip setuptools wheel
+sudo -H pip install Cython
+sudo -H pip install virtualenv
+```
+2. Clone repo, create and activate environment:
+```
+git clone git@github.com:osmr/tgchatbot.git
+cd tgchatbot
+virtualenv venv
+source venv/bin/activate
+```
+3. Install dependencies:
+```
+pip install torch==1.9.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+pip install -r requirements.txt
+pip install TensorFlowTTS==1.8
+pip install huggingface-hub==0.0.17 six==1.16.0
+pip install --upgrade numpy llvmlite numba typing-extensions h5py
+pip install pytest
+pip install .
+```
+4. Run tests:
+```
+pytest
+```
+5. Run the chatbot (fill the `token` value):
+```
+python -m tgchatbot.launch --token="<YOU token>"
+docker run -it --rm --name=tgchatbot1 tgchatbot --token="<Your token>"
+```
+or
+```
+python -m tgchatbot.launch --token="<Your token>" --use-cuda
+```
+6. Deactivate environment:
+```
+deactivate
+```
+
+## Chatbot commands in Telegram
+1. `/start` or `/help` - Welcome information.
+2. `/start en` - Set input/output language to `en` (English). It can be `en`, `fr`, `de`, and `ru`.
+3. `/lang` - Show current input/output languages status.
+4. `/lang_src` - Show current input (your messages or speech) language status.
+5. `/lang_dst` - Show current output (chatbot's messages and speech) language status.
+6. `/lang en` - Set input/output language to `en` (English).
+7. `/lang_src en` - Set input language to `en` (English).
+8. `/lang_dst en` - Set output language to `en` (English).
+9. `/tts` - Show current Text-To-Speech (TTS) activity status. It can be `yes` or `no`.
+10. `/tts yes` - Activate TTS.
+11. `/context` - Show contest for text (NLU) chatbot context corresponding the current user and output language.
+12. `/context ""` - Erase NLU chatbot contest.
+13. `Hello` - Text `Hello` to the chatbot. You can text amy message. 
+13. `<Audio with speech>` - Say something to the chatbot.
