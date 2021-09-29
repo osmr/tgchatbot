@@ -1,6 +1,6 @@
 # Telegram AI chatbot
 
-[![Build Status](https://travis-ci.org/osmr/imgclsmob.svg?branch=master)](https://travis-ci.org/osmr/imgclsmob)
+[![Build Status](https://travis-ci.org/osmr/tgchatbot.svg?branch=master)](https://travis-ci.org/osmr/tgchatbot)
 [![GitHub License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.7%2C3.8-lightgrey.svg)](https://github.com/osmr/imgclsmob)
 
