@@ -20,23 +20,10 @@ RUN pip install -r requirements.txt
 RUN pip install TensorFlowTTS==1.8
 RUN pip install huggingface-hub==0.0.17 six==1.16.0 numpy==1.20.3 llvmlite==0.37.0 numba==0.54.0 typing-extensions==3.10.0.2 h5py==3.4.0
 
-
 RUN pip list
-# RUN export DEBIAN_FRONTEND=newt
 
-# RUN python3 -m text.chatbot_dialoggpt_en
-# RUN python3 -m text.chatbot_dialoggpt_fr
-# RUN python3 -m text.chatbot_dialoggpt_ru
-# RUN python3 -m text.chatbot_dialoggpt_en_multi_wrapper
-# RUN python3 -m text.chatbot_blenderbot_en
-# RUN python3 -m text.translator_marian
-# RUN python3 -m text.punct_nemo
-# RUN python3 -m audio.asr_quartznet
-# RUN python3 -m audio.asr_wav2vec2
-# RUN python3 -m audio.asr_s2t
-# RUN python3 -m audio.tts_nemo
-# RUN python3 -m audio.tts_tensorspeech
-# RUN python3 -m audio.langid_ecapa
-# RUN python3 -m audio.emrec_superb
-# RUN python3 -m audio.audio_converter
-# RUN python3 -m telegram_chatbot
+RUN pip install pytest
+RUN pip install .
+RUN pytest
+WORKDIR /root/projects/
+RUN rm -rf /root/projects/tgchatbot/
