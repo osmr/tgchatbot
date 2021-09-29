@@ -20,10 +20,10 @@ RUN pip install -r requirements.txt
 RUN pip install TensorFlowTTS==1.8
 RUN pip install huggingface-hub==0.0.17 six==1.16.0 numpy==1.20.3 llvmlite==0.37.0 numba==0.54.0 typing-extensions==3.10.0.2 h5py==3.4.0
 
-RUN pip list
-
 RUN pip install pytest
 RUN pip install .
 RUN pytest
 WORKDIR /root/projects/
 RUN rm -rf /root/projects/tgchatbot/
+
+ENTRYPOINT ["python3", "-m", "tgchatbot.launch"]

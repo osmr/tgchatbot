@@ -29,5 +29,37 @@ Natural Language Understanding, Automatic Speech Recognition and Text-To-Speech 
    1. S3PRL's Wav2Vec2 based [model](https://huggingface.co/superb/wav2vec2-base-superb-er)
    2. S3PRL's Hubert based [model](https://huggingface.co/superb/hubert-large-superb-er)
 
-## Installation
-See `Dockerfile`.
+## Deployment
+### Docker way
+
+1. Install docker engine (actual [instructions](https://docs.docker.com/engine/install/)):
+```
+sudo apt update
+sudo apt upgrade -y
+sudo apt dist-upgrade -y
+sudo apt autoremove -y
+
+sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+sudo systemctl status docker
+```
+2. Install NVIDIA Container Toolkit (actual [instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)):
+```
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
+   && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
+   && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt update
+sudo apt install -y nvidia-container-toolkit
+sudo systemctl restart docker
+```
+3. Build docker image:
+```
+git clone https://github.com/osmr/tgchatbot.git
+cd tgchatbot
+
+```
