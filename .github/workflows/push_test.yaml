@@ -15,7 +15,9 @@ jobs:
           python-version: '3.8'
           architecture: 'x64'
       - name: Install prerequisites #1
-        run: apt-get install -y libsndfile1-dev ffmpeg
+        run: sudo apt-get update && apt-get upgrade -y && apt-get autoremove
+      - name: Install prerequisites #3
+        run: sudo apt-get install -y libsndfile1-dev ffmpeg
       - name: Install requirements #1
         run: pip install torch==1.9.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
       - name: Install requirements #2
