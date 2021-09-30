@@ -14,11 +14,16 @@ jobs:
         with:
           python-version: '3.7'
           architecture: 'x64'
+      - name: Run linter
+        run: |
+          pip install flake8
+          flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics --exclude=./venv*
+          flake8 . --count --max-complexity=49 --max-line-length=127 --ignore=W504,F403,F405,E126,E127,E402,W605 --statistics --exclude=./venv*
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get upgrade -y
           sudo apt-get install -y libsndfile1-dev ffmpeg
-      - name: Install requirements 1
+      - name: Install requirements
         run: |
           pip install --upgrade pip setuptools wheel
           pip install torch==1.9.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
@@ -26,11 +31,8 @@ jobs:
           pip install TensorFlowTTS==1.8
           pip install huggingface-hub==0.0.17 six==1.16.0
           pip install --upgrade numpy llvmlite numba typing-extensions h5py
-          pip install pytest flake8
+          pip install pytest
           pip install -e .
       - name: Run pytest
-        run: pytest tests/audio/test_asr_quartznet.py
-      - name: Run linter
         run: |
-          flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics --exclude=./venv*
-          flake8 . --count --max-complexity=49 --max-line-length=127 --ignore=W504,F403,F405,E126,E127,E402,W605 --statistics --exclude=./venv*
+          pytest tests/text/
