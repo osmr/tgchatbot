@@ -15,7 +15,7 @@ def test_audio_converter(audio_file_path_dict, use_cuda, tmp_path):
         desired_audio_sample_rate=sample_rate)
     assert (type(audio_array) == np.ndarray)
     assert (len(audio_array) > 0)
-    dst_buffer = AudioConverter.write_to_wav_buffer(
+    dst_buffer = AudioConverter.write_to_buffer(
         audio_array=audio_array,
         audio_sample_rate=sample_rate)
     assert (isinstance(dst_buffer, BytesIO))

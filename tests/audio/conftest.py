@@ -23,3 +23,9 @@ def audio_data_dict(audio_file_path_dict):
     audio_data_dict = {lang: librosa.load(path=audio_file_path_dict[lang], sr=sample_rate, mono=True)[0]
                        for lang in audio_file_path_dict}
     return audio_data_dict
+
+
+def pytest_addoption(parser):
+    parser.addoption("--yandex-oauth-token", action="store", default=None, help="Yandex OAuth token")
+    parser.addoption("--yandex-folder-id", action="store", default=None, help="Yandex Cloud folder id")
+    parser.addoption("--yandex-iam-token", action="store", default=None, help="Yandex IAM token")

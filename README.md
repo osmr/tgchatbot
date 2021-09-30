@@ -34,6 +34,9 @@ Natural Language Understanding, Automatic Speech Recognition and Text-To-Speech 
    1. S3PRL's Wav2Vec2 based [model](https://huggingface.co/superb/wav2vec2-base-superb-er)
    2. S3PRL's Hubert based [model](https://huggingface.co/superb/hubert-large-superb-er)
 
+## Used conversational AI cloud services
+1. Yandex [Cloud](https://cloud.yandex.ru/)
+
 ## Deployment
 
 ### Docker way

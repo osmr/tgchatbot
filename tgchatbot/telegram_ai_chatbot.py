@@ -178,7 +178,7 @@ class TelegramAiChatbot(object):
                 audio_answer = tts(text_answer)
                 audio_sample_rate = 22050
                 await message.answer_voice(
-                    voice=AudioConverter.write_to_wav_buffer(
+                    voice=AudioConverter.write_to_buffer(
                         audio_array=audio_answer,
                         audio_sample_rate=audio_sample_rate),
                     caption=text_answer,
@@ -213,7 +213,7 @@ class TelegramAiChatbot(object):
                 audio_answer = tts(text_answer)
                 audio_sample_rate = 22050
                 await message.answer_voice(
-                    voice=AudioConverter.write_to_wav_buffer(
+                    voice=AudioConverter.write_to_buffer(
                         audio_array=audio_answer,
                         audio_sample_rate=audio_sample_rate),
                     caption="Q: {}\nA: {}".format(text_question, text_answer),

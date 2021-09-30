@@ -47,10 +47,11 @@ class AudioConverter(object):
         return audio_array
 
     @staticmethod
-    def write_to_wav_buffer(audio_array: np.array,
-                            audio_sample_rate: int) -> BytesIO:
+    def write_to_buffer(audio_array: np.array,
+                        audio_sample_rate: int,
+                        format: str = "wav") -> BytesIO:
         """
-        Write audio to buffer in WAV format.
+        Write audio to buffer in some format.
 
         Parameters:
         ----------
@@ -58,6 +59,8 @@ class AudioConverter(object):
             Audio data.
         audio_sample_rate : int
             Audio sample rate.
+        format : str, default 'wav'
+            Encoding format.
 
         Returns:
         -------
@@ -69,7 +72,7 @@ class AudioConverter(object):
             file=audio_buffer,
             data=audio_array,
             samplerate=audio_sample_rate,
-            format="wav",
-            subtype="PCM_16")
+            format=format,
+            subtype=("PCM_16" if format == "wav" else None))
         audio_buffer.seek(0)
         return audio_buffer

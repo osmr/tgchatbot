@@ -18,5 +18,8 @@ git+https://github.com/repodiac/german_transliterate
 # For speechbrain.pretrained.EncoderClassifier:
 speechbrain==0.5.10
 
+# For Yandex ASR/TTS:
+requests
+
 # For TelegramChatBot:
 aiogram==2.15
