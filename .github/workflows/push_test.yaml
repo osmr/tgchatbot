@@ -15,7 +15,7 @@ jobs:
           python-version: '3.8'
           architecture: 'x64'
       - name: Install prerequisites #1
-        run: sudo apt-get update && apt-get upgrade -y && apt-get autoremove
+        run: sudo apt-get update && sudo apt-get upgrade -y
       - name: Install prerequisites #3
         run: sudo apt-get install -y libsndfile1-dev ffmpeg
       - name: Install requirements #1
