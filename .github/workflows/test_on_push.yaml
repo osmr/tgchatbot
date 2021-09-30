@@ -1,0 +1,32 @@
+name: Test on every push
+on:
+  push:
+    tags:
+      - '!refs/tags/*'
+    branches:
+      - '*'
+jobs:
+  run_tests:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+      - name: Install requirements #1
+        run: pip install torch==1.9.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+      - name: Install requirements #2
+        run: pip install -r requirements.txt
+      - name: Install requirements #3
+        run: pip install TensorFlowTTS==1.8
+      - name: Install requirements #4
+        run: pip install huggingface-hub==0.0.17 six==1.16.0
+      - name: Install requirements #5
+        run: pip install --upgrade numpy llvmlite numba typing-extensions h5py
+      - name: Install requirements #6
+        run: pip install pytest
+      - name: Install requirements #7
+        run: pip install -e .
+      - name: Run tests
+        run: pytest
