@@ -50,13 +50,15 @@ class TtsYandex(AudioYandex):
         if response.status_code != 200:
             raise RuntimeError("Invalid response received: code: {}, message: {}".format(
                 response.status_code, response.text))
-        if self.use_ogg_audio_format:
-            with BytesIO() as b:
-                b.write(response.content)
-                b.seek(0)
+
+        with BytesIO() as b:
+            for chunk in response.iter_content(chunk_size=None):
+                b.write(chunk)
+            b.seek(0)
+            if self.use_ogg_audio_format:
                 audio_array = AudioConverter.read_from_buffer(b)
-        else:
-            audio_array = np.frombuffer(response.content)
-            audio_array = lr_resample(y=audio_array, orig_sr=sample_rate, target_sr=22050)
+            else:
+                audio_array = np.frombuffer(b)
+                audio_array = lr_resample(y=audio_array, orig_sr=sample_rate, target_sr=22050)
 
         return audio_array
