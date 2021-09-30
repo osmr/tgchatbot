@@ -1,5 +1,6 @@
 # Telegram AI chatbot
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/osmr/tgchatbot/push-test)
 [![Build Status](https://travis-ci.com/osmr/tgchatbot.svg?branch=master)](https://travis-ci.com/osmr/tgchatbot)
 [![GitHub License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.7%2C3.8-lightgrey.svg)](https://github.com/osmr/imgclsmob)
@@ -88,20 +89,25 @@ docker run -it --rm --gpus=all --name=tgchatbot1 tgchatbot --token="<Your token>
 
 NB: You need `Python` >= 3.7 due to requirements of the `aiogram` and `SpeechBrain` packages.
 
-1. Install virtualenv (actual [instructions](https://virtualenv.pypa.io/en/latest/installation.html)):
+1. Install prerequisites:
+```
+apt-get update && apt-get upgrade -y && apt-get autoremove
+apt-get install -y libsndfile1-dev ffmpeg
+```
+2. Install virtualenv (actual [instructions](https://virtualenv.pypa.io/en/latest/installation.html)):
 ```
 sudo -H pip install --upgrade pip setuptools wheel
 sudo -H pip install Cython
 sudo -H pip install virtualenv
 ```
-2. Clone repo, create and activate environment:
+3. Clone repo, create and activate environment:
 ```
 git clone https://github.com/osmr/tgchatbot.git
 cd tgchatbot
 virtualenv venv
 source venv/bin/activate
 ```
-3. Install dependencies:
+4. Install dependencies:
 ```
 pip install torch==1.9.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 pip install -r requirements.txt
@@ -111,11 +117,11 @@ pip install --upgrade numpy llvmlite numba typing-extensions h5py
 pip install pytest
 pip install .
 ```
-4. Run tests:
+5. Run tests:
 ```
 pytest
 ```
-5. Run the chatbot (fill the `token` value):
+6. Run the chatbot (fill the `token` value):
 ```
 python -m tgchatbot.launch --token="<YOU token>"
 docker run -it --rm --name=tgchatbot1 tgchatbot --token="<Your token>"
@@ -124,7 +130,7 @@ or
 ```
 python -m tgchatbot.launch --token="<Your token>" --use-cuda
 ```
-6. Deactivate environment:
+7. Deactivate environment:
 ```
 deactivate
 ```

@@ -1,4 +1,4 @@
-name: Test on every push
+name: push-test
 on:
   push:
     tags:
@@ -14,6 +14,8 @@ jobs:
         with:
           python-version: '3.8'
           architecture: 'x64'
+      - name: Install prerequisites #1
+        run: apt-get install -y libsndfile1-dev ffmpeg
       - name: Install requirements #1
         run: pip install torch==1.9.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
       - name: Install requirements #2
@@ -25,8 +27,12 @@ jobs:
       - name: Install requirements #5
         run: pip install --upgrade numpy llvmlite numba typing-extensions h5py
       - name: Install requirements #6
-        run: pip install pytest
+        run: pip install pytest flake8
       - name: Install requirements #7
         run: pip install -e .
-      - name: Run tests
+      - name: Run pytest
         run: pytest
+      - name: Run linter #1
+        run: flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics --exclude=./venv*
+      - name: Run linter #1
+        run: flake8 . --count --max-complexity=49 --max-line-length=127 --ignore=W504,F403,F405,E126,E127,E402,W605 --statistics --exclude=./venv*
