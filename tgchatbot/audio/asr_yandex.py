@@ -13,6 +13,7 @@ from .audio_converter import AudioConverter
 class AsrYandex(AudioYandex):
     """
     ASR from Yandex (without GRPC).
+    See https://cloud.yandex.com/en-ru/docs/speechkit/stt/.
     """
     def __init__(self, **kwargs):
         super(AsrYandex, self).__init__(**kwargs)

@@ -15,6 +15,7 @@ from .audio_converter import AudioConverter
 class TtsYandex(AudioYandex):
     """
     TTS from Yandex.
+    See https://cloud.yandex.com/en-ru/docs/speechkit/tts/.
     """
     def __init__(self, **kwargs):
         super(TtsYandex, self).__init__(**kwargs)

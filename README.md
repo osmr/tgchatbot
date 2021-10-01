@@ -35,7 +35,8 @@ Natural Language Understanding, Automatic Speech Recognition and Text-To-Speech 
    2. S3PRL's Hubert based [model](https://huggingface.co/superb/hubert-large-superb-er)
 
 ## Used conversational AI cloud services
-1. Yandex [Cloud](https://cloud.yandex.ru/)
+1. Yandex [Cloud](https://cloud.yandex.com/en-ru/)
+2. Google [Cloud](https://cloud.google.com/)
 
 ## Deployment
 

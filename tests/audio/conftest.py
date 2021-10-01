@@ -29,3 +29,4 @@ def pytest_addoption(parser):
     parser.addoption("--yandex-oauth-token", action="store", default=None, help="Yandex OAuth token")
     parser.addoption("--yandex-folder-id", action="store", default=None, help="Yandex Cloud folder id")
     parser.addoption("--yandex-iam-token", action="store", default=None, help="Yandex IAM token")
+    parser.addoption("--google-credentials", action="store", default=None, help="Google app credentials")

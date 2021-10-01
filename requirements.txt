@@ -21,5 +21,9 @@ speechbrain==0.5.10
 # For Yandex ASR/TTS:
 requests
 
+# For Google Cloud:
+google-cloud-speech
+google-cloud-texttospeech
+
 # For TelegramChatBot:
 aiogram==2.15
