@@ -26,7 +26,12 @@ def audio_data_dict(audio_file_path_dict):
 
 
 def pytest_addoption(parser):
+    parser.addoption("--google-credentials", action="store", default=None, help="Google app credentials")
+
+    parser.addoption("--aws-access-key-id", action="store", default=None, help="AWS access key ID")
+    parser.addoption("--aws-secret-access-key", action="store", default=None, help="AWS secret access key")
+    parser.addoption("--aws-region-name", action="store", default=None, help="AWS region")
+
     parser.addoption("--yandex-oauth-token", action="store", default=None, help="Yandex OAuth token")
     parser.addoption("--yandex-folder-id", action="store", default=None, help="Yandex Cloud folder id")
     parser.addoption("--yandex-iam-token", action="store", default=None, help="Yandex IAM token")
-    parser.addoption("--google-credentials", action="store", default=None, help="Google app credentials")
