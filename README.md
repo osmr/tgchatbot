@@ -2,7 +2,7 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/osmr/tgchatbot/push-test)
 [![GitHub License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Python Version](https://img.shields.io/badge/python-3.7%2C3.8-lightgrey.svg)](https://github.com/osmr/imgclsmob)
+[![Python Version](https://img.shields.io/badge/python-3.7%2C3.8-lightgrey.svg)](https://github.com/osmr/tgchatbot)
 
 This is a chatbot for the [Telegram](https://telegram.org) instance messenger, which uses various free conversational
 Natural Language Understanding, Automatic Speech Recognition and Text-To-Speech neural networks for different languages.
@@ -124,7 +124,7 @@ pytest
 ```
 6. Run the chatbot (fill the `token` value):
 ```
-python -m tgchatbot.launch --token="<YOU token>"
+python -m tgchatbot.launch --token="<Your token>"
 docker run -it --rm --name=tgchatbot1 tgchatbot --token="<Your token>"
 ```
 or
