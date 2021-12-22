@@ -35,4 +35,4 @@ jobs:
           pip install -e .
       - name: Run pytest
         run: |
-          pytest tests/text/
+          pytest tests/text/test_translator_marian.py
